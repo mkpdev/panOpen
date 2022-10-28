@@ -19,7 +19,6 @@
 
 # Learn more: http://github.com/javan/whenever
 
-
-every 1.minutes do
-  command "/usr/bin/RecordUpdateJob.perform_now"
+every :sunday, at: '12pm' do
+  runner "RecordUpdateJob.new.perform"
 end

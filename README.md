@@ -1,14 +1,18 @@
 # README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
+This is a single page rails and react application to show details about students, the books they're reading, their course and reading time. The reading time is updated by a scheduled job every week.
 
 * Ruby version
 2.6.6
 
-* Commands:
+* Rails version
+5.2.8
+
+* database
+sqlite3
+
+* Commands for application setup:
 bundle install
-rails db:migrate
+rails db:setup
+
+* To run server:
 rails s

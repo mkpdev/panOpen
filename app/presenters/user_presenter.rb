@@ -1,45 +1,34 @@
 class UserPresenter
-  def initialize(users)
-    @users = users
+  def initialize
+    @students = User.students
   end
 
   def user_data
-    data = {}
-    users = []
-    @users.each do |user|
-      data = { 'id' => user.id, 'email' => user.email }
-      temp_data = reading_time(user)
-      data.merge!(temp_data) if temp_data.present?
-      users << data
-    end
-    users
+    @students.collect { |u| { id: u.id, email: u.email }.merge(reading_time(find_time(u))) }
   end
 
   private
 
-  def reading_time(user)
-    time = find_time(user)
-    if time.present?
-      {
-        'book_name' => books(time),
-        'course_name' => course(time),
-        'reading_time' => time.count
-      }
-    end
+  def reading_time(time)
+    return {} unless time.present?
+
+    {
+      book_name: book_name(time),
+      course_name: course_name(time),
+      reading_time: time.count
+    }
   end
 
-  def books(time)
-    book = time.book if time.present?
-    book.name if book.present?
+  def book_name(time)
+    time&.book&.name
   end
 
-  def course(time)
-    book = time.book if time.present?
-    book.course.name if book.present?
+  def course_name(time)
+    time&.book&.course&.name
   end
 
   def find_time(user)
-    reading_time = ReadingTime.find_by(user_id: user)
+    reading_time = ReadingTime.find_by(user_id: user.id)
     reading_time if reading_time.present?
   end
 end
